@@ -21,7 +21,7 @@ import components.set.SetSecondary;
  * @convention IS_BST($this.tree)
  * @correspondence this = labels($this.tree)
  *
- * @author Put your name here
+ * @author Nicholas McCracken and Jack Mikesell
  *
  */
 public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
@@ -53,10 +53,24 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert t != null : "Violation of: t is not null";
         assert x != null : "Violation of: x is not null";
 
-        // TODO - fill in body
+        boolean isInTree = false;
+        BinaryTree<T> left = t.newInstance(), right = t.newInstance();
 
-        // This line added just to make the component compilable.
-        return false;
+        if (t.size() > 0) {
+            T root = t.disassemble(left, right);
+
+            if (root.equals(x)) {
+                isInTree = true;
+            } else if (root.compareTo(x) > 0) {
+                isInTree = isInTree(left, x);
+            } else {
+                isInTree = isInTree(right, x);
+            }
+
+            t.assemble(root, left, right);
+        }
+
+        return isInTree;
     }
 
     /**
@@ -101,10 +115,18 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert t != null : "Violation of: t is not null";
         assert t.size() > 0 : "Violation of: |t| > 0";
 
-        // TODO - fill in body
+        BinaryTree<T> left = t.newInstance(), right = t.newInstance();
 
-        // This line added just to make the component compilable.
-        return null;
+        T root = t.disassemble(left, right), smallest = root;
+
+        if (left.size() > 0) {
+            smallest = removeSmallest(left);
+            t.assemble(root, left, right);
+        } else {
+            t.transferFrom(right);
+        }
+
+        return smallest;
     }
 
     /**
