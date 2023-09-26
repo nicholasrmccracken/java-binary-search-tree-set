@@ -56,12 +56,20 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         boolean isInTree = false;
         BinaryTree<T> left = t.newInstance(), right = t.newInstance();
 
+        /*
+         * If the root node exists, then check if it is the label x.
+         */
         if (t.size() > 0) {
             T root = t.disassemble(left, right);
 
+            /*
+             * Base case is when the root is the label x, otherwise make a
+             * recursive call down the left or right tree depending on the value
+             * of the label x relative to the root node.
+             */
             if (root.equals(x)) {
                 isInTree = true;
-            } else if (root.compareTo(x) > 0) {
+            } else if (x.compareTo(root) < 0) {
                 isInTree = isInTree(left, x);
             } else {
                 isInTree = isInTree(right, x);
@@ -70,6 +78,13 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
             t.assemble(root, left, right);
         }
 
+        /*
+         * If the root node did not exist, that means the boolean flag isInTree
+         * is never changed, and there is no more trees to check, therefore the
+         * default false value is returned. Otherwise, the value may have been
+         * reset through recursion if the root node did exist in the current
+         * call.
+         */
         return isInTree;
     }
 
@@ -92,7 +107,34 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert t != null : "Violation of: t is not null";
         assert x != null : "Violation of: x is not null";
 
-        // TODO - fill in body
+        BinaryTree<T> left = t.newInstance(), right = t.newInstance();
+
+        /*
+         * If the root node exists, continue traveling down the tree to it's
+         * proper place of insertion.
+         */
+        if (t.size() > 0) {
+            T root = t.disassemble(left, right);
+
+            /*
+             * Make a recursive call down the left or right tree depending on
+             * the value of the label x relative to the root node.
+             */
+            if (x.compareTo(root) < 0) {
+                insertInTree(left, x);
+            } else {
+                insertInTree(right, x);
+            }
+
+            t.assemble(root, left, right);
+        } else {
+            /*
+             * Once the root node no longer exists, the proper insertion place
+             * of the label x has been found, thus the tree can be reconstructed
+             * with the newly added root node x.
+             */
+            t.assemble(x, left, right);
+        }
 
     }
 
@@ -117,12 +159,26 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
 
         BinaryTree<T> left = t.newInstance(), right = t.newInstance();
 
+        /*
+         * Assume the smallest node is the root node.
+         */
         T root = t.disassemble(left, right), smallest = root;
 
+        /*
+         * Reassign the smallest node with a recursive call if the root node has
+         * a left child, meaning it cannot be the smallest since there exists a
+         * tree with nodes smaller than it.
+         */
         if (left.size() > 0) {
             smallest = removeSmallest(left);
             t.assemble(root, left, right);
         } else {
+            /*
+             * If the root node is the smallest node, it cannot have a left tree
+             * since there are no nodes smaller than it. Thus, the right tree
+             * can reaplce the root node to reassemble the tree without the
+             * smallest node.
+             */
             t.transferFrom(right);
         }
 
@@ -153,10 +209,44 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert t.size() > 0 : "Violation of: x is in labels(t)";
 
-        // TODO - fill in body
+        BinaryTree<T> left = t.newInstance(), right = t.newInstance();
 
-        // This line added just to make the component compilable.
-        return null;
+        /*
+         * Assume the root node is the label x.
+         */
+        T root = t.disassemble(left, right), label = root;
+
+        /*
+         * If the root node is a different value than the label x, make a
+         * recursive call down the left or right tree depending on the value of
+         * the label x relative to the root node to reassign the label value.
+         */
+        if (x.compareTo(root) < 0) {
+            label = removeFromTree(left, x);
+            t.assemble(root, left, right);
+
+        } else if (x.compareTo(root) > 0) {
+            label = removeFromTree(right, x);
+            t.assemble(root, left, right);
+
+        } else {
+            /*
+             * If the root node is the label x, then it must be replaced with
+             * the smallest element from it's right child, since this element is
+             * smaller than everything in the right tree while remaining larger
+             * than everything in the left tree if it exists. If the right tree
+             * does not exist, then the root node can be replaced by it's left
+             * child.
+             */
+            if (right.size() > 0) {
+                t.assemble(removeSmallest(right), left, right);
+            } else {
+                t.transferFrom(left);
+            }
+
+        }
+
+        return label;
     }
 
     /**
