@@ -1,6 +1,7 @@
 import java.util.Iterator;
 
 import components.binarytree.BinaryTree;
+import components.binarytree.BinaryTree1;
 import components.set.Set;
 import components.set.SetSecondary;
 
@@ -254,7 +255,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
      */
     private void createNewRep() {
 
-        // TODO - fill in body
+        this.tree = new BinaryTree1<T>();
 
     }
 
@@ -267,7 +268,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
      */
     public Set3a() {
 
-        // TODO - fill in body
+        this.createNewRep();
 
     }
 
@@ -316,7 +317,8 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert !this.contains(x) : "Violation of: x is not in this";
 
-        // TODO - fill in body
+        // inserts x into its appropriate spot in the binary tree
+        insertInTree(this.tree, x);
 
     }
 
@@ -325,39 +327,47 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert this.contains(x) : "Violation of: x is in this";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return null;
+        /*
+         * removes x from the binary tree and rearranges the tree to be a valid
+         * BST if needed.
+         */
+        return removeFromTree(this.tree, x);
     }
 
     @Override
     public final T removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return null;
+        /*
+         * removes the root node from the tree and rearranges the tree to make
+         * it a valid BST.
+         */
+        return removeFromTree(this.tree, this.tree.root());
     }
 
     @Override
     public final boolean contains(T x) {
         assert x != null : "Violation of: x is not null";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return false;
+        /*
+         * Iterates through the tree and checks each node to see if it equals x.
+         * If the tree contains x anywhere, returns true; otherwise returns
+         * false.
+         */
+        boolean contains = false;
+        for (T current : this.tree) {
+            if (current.equals(x)) {
+                contains = true;
+            }
+        }
+        return contains;
     }
 
     @Override
     public final int size() {
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return 0;
+        // returns the total number of nodes in the BST.
+        return this.tree.size();
     }
 
     @Override
