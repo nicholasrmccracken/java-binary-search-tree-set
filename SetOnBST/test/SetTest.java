@@ -458,4 +458,208 @@ public abstract class SetTest {
         assertEquals(3, setLength);
     }
 
+    /**
+     * Test size by adding to the set and calling size after to make sure the
+     * size was incremented.
+     */
+    @Test
+    public final void testSizeAfterAddOne() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "green", "blue");
+        /*
+         * Call method under test
+         */
+        set.add("yellow");
+        int setLength = set.size();
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(4, setLength);
+    }
+
+    /**
+     * Test size by adding multiple items to the set and calling size after to
+     * make sure the size was incremented.
+     */
+    @Test
+    public final void testSizeAfterAddMultiple() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "green", "blue");
+        /*
+         * Call method under test
+         */
+        set.add("yellow");
+        set.add("orange");
+        set.add("purple");
+        int setLength = set.size();
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(6, setLength);
+    }
+
+    /**
+     * Test size by removing from the set and calling size after to make sure
+     * the size was decremented.
+     */
+    @Test
+    public final void testSizeAfterRemoveOne() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "green", "blue");
+        /*
+         * Call method under test
+         */
+        set.remove("green");
+        int setLength = set.size();
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(2, setLength);
+    }
+
+    /**
+     * Test size by removing multiple items from the set and calling size after
+     * to make sure the size was decremented.
+     */
+    @Test
+    public final void testSizeAfterRemoveMultiple() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "green", "blue");
+        /*
+         * Call method under test
+         */
+        set.remove("green");
+        set.remove("red");
+        set.remove("blue");
+        int setLength = set.size();
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(0, setLength);
+    }
+
+    /**
+     * Test size by removing (any) from the set and calling size after to make
+     * sure it was decremented.
+     */
+    @Test
+    public final void testSizeAfterRemoveAnyOne() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "green", "blue");
+        /*
+         * Call method under test
+         */
+        set.removeAny();
+        int setLength = set.size();
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(2, setLength);
+    }
+
+    /**
+     * Test size by removing any multiple items from the set and calling size
+     * after to make sure it was decremented.
+     */
+    @Test
+    public final void testSizeAfterRemoveAnyMultiple() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "green", "blue");
+        /*
+         * Call method under test
+         */
+        set.removeAny();
+        set.removeAny();
+        set.removeAny();
+        int setLength = set.size();
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(0, setLength);
+    }
+
+    /**
+     * Test contains by checking for an item that is not in the set - expecting
+     * false.
+     */
+    @Test
+    public final void testContainsOneFalse() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red");
+        /*
+         * Call method under test
+         */
+        boolean contains = set.contains("blue");
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(false, contains);
+    }
+
+    /**
+     * Test contains by checking for multiple items not in the set - expecting
+     * false.
+     */
+    @Test
+    public final void testContainsMultipleFalse() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "blue", "green",
+                "yellow");
+        /*
+         * Call method under test
+         */
+        boolean contains1 = set.contains("orange");
+        boolean contains2 = set.contains("purple");
+        boolean contains3 = set.contains("magenta");
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(false, contains1);
+        assertEquals(false, contains2);
+        assertEquals(false, contains3);
+    }
+
+    /**
+     * Test contains by checking for multiple items, two are in the set and one
+     * is not, expecting two trues and a false.
+     */
+    @Test
+    public final void testContainsMultipleTrueAndFalse() {
+        /*
+         * Set up variables
+         */
+        Set<String> set = this.createFromArgsTest("red", "blue", "green",
+                "yellow");
+        /*
+         * Call method under test
+         */
+        boolean contains1 = set.contains("orange");
+        boolean contains2 = set.contains("blue");
+        boolean contains3 = set.contains("red");
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(false, contains1);
+        assertEquals(true, contains2);
+        assertEquals(true, contains3);
+    }
+
 }
