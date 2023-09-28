@@ -254,9 +254,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
      * Creator of initial representation.
      */
     private void createNewRep() {
-
         this.tree = new BinaryTree1<T>();
-
     }
 
     /*
@@ -267,9 +265,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
      * No-argument constructor.
      */
     public Set3a() {
-
         this.createNewRep();
-
     }
 
     /*
@@ -317,7 +313,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert !this.contains(x) : "Violation of: x is not in this";
 
-        // inserts x into its appropriate spot in the binary tree
+        // Inserts x into its approperiate spot in the binary tree.
         insertInTree(this.tree, x);
 
     }
@@ -328,7 +324,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert this.contains(x) : "Violation of: x is in this";
 
         /*
-         * removes x from the binary tree and rearranges the tree to be a valid
+         * Removes x from the binary tree and rearranges the tree to be a valid
          * BST if needed.
          */
         return removeFromTree(this.tree, x);
@@ -339,7 +335,7 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
         /*
-         * removes the root node from the tree and rearranges the tree to make
+         * Removes the root node from the tree and rearranges the tree to make
          * it a valid BST.
          */
         return removeFromTree(this.tree, this.tree.root());
@@ -349,24 +345,14 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
     public final boolean contains(T x) {
         assert x != null : "Violation of: x is not null";
 
-        /*
-         * Iterates through the tree and checks each node to see if it equals x.
-         * If the tree contains x anywhere, returns true; otherwise returns
-         * false.
-         */
-        boolean contains = false;
-        for (T current : this.tree) {
-            if (current.equals(x)) {
-                contains = true;
-            }
-        }
-        return contains;
+        // Checks if the element x is a node in the BST representation.
+        return isInTree(this.tree, x);
     }
 
     @Override
     public final int size() {
 
-        // returns the total number of nodes in the BST.
+        // Returns the total number of nodes in the BST.
         return this.tree.size();
     }
 
